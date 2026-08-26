@@ -4,89 +4,208 @@
 
 @section('content')
 
-<div class="container">
+<style>
+    .form-page {
+        padding: 28px 0 40px;
+        max-width: 850px;
+        margin: auto;
+    }
 
-    <h2 class="mb-4 fw-bold">Tambah User</h2>
+    .form-header {
+        margin-bottom: 22px;
+    }
 
-    <form action="{{ route('admin.users.store') }}" method="POST">
-        @csrf
+    .form-title {
+        margin: 0;
+        font-size: 24px;
+        font-weight: 700;
+        color: #172033;
+    }
 
-        {{-- NAMA --}}
-        <div class="mb-3">
-            <label class="form-label">Nama</label>
-            <input
-                type="text"
-                name="name"
-                class="form-control @error('name') is-invalid @enderror"
-                value="{{ old('name') }}">
+    .form-subtitle {
+        margin: 5px 0 0;
+        color: #7a8496;
+        font-size: 14px;
+    }
 
-            @error('name')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
+    .form-card {
+        background: #fff;
+        border: 1px solid #e7eaf0;
+        border-radius: 12px;
+        box-shadow: 0 3px 12px rgba(20, 32, 55, .04);
+        padding: 26px;
+    }
 
-        {{-- EMAIL --}}
-        <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input
-                type="email"
-                name="email"
-                class="form-control @error('email') is-invalid @enderror"
-                value="{{ old('email') }}">
+    .form-label {
+        color: #344054;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 7px;
+    }
 
-            @error('email')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
+    .form-control,
+    .form-select {
+        min-height: 42px;
+        border-color: #dfe3e9;
+        border-radius: 7px;
+        font-size: 14px;
+        box-shadow: none !important;
+    }
 
-        {{-- PASSWORD --}}
-        <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input
-                type="password"
-                name="password"
-                class="form-control @error('password') is-invalid @enderror">
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #2563eb;
+    }
 
-            @error('password')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
+    .form-help {
+        color: #98a2b3;
+        font-size: 12px;
+        margin-top: 5px;
+    }
 
-        {{-- ROLE --}}
-        <div class="mb-3">
-            <label class="form-label">Role</label>
-            <select
-                name="role_id"
-                class="form-select @error('role_id') is-invalid @enderror">
+    .form-actions {
+        display: flex;
+        gap: 9px;
+        padding-top: 8px;
+        margin-top: 24px;
+        border-top: 1px solid #edf0f4;
+    }
 
-                <option value="">-- Pilih Role --</option>
+    .btn-save {
+        border: 0;
+        border-radius: 7px;
+        background: #2563eb;
+        color: white;
+        padding: 9px 18px;
+        font-size: 13px;
+        font-weight: 600;
+    }
 
-                @foreach ($roles as $role)
-                    <option value="{{ $role->id }}"
-                        {{ old('role_id') == $role->id ? 'selected' : '' }}>
-                        {{ $role->name }}
-                    </option>
-                @endforeach
+    .btn-save:hover {
+        background: #1d4ed8;
+    }
 
-            </select>
+    .btn-back {
+        border: 1px solid #dfe3e9;
+        border-radius: 7px;
+        background: white;
+        color: #475467;
+        padding: 9px 18px;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+    }
 
-            @error('role_id')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
+    .btn-back:hover {
+        background: #f8f9fb;
+        color: #344054;
+    }
+</style>
 
-        {{-- BUTTON --}}
-        <div class="mt-4">
-            <button type="submit" class="btn btn-primary">
-                Simpan
-            </button>
+<div class="container form-page">
 
-            <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">
-                Kembali
-            </a>
-        </div>
+    <div class="form-header">
+        <h1 class="form-title">Tambah User</h1>
+        <p class="form-subtitle">
+            Tambahkan pengguna baru ke dalam sistem.
+        </p>
+    </div>
 
-    </form>
+    <div class="form-card">
+
+        <form action="{{ route('admin.users.store') }}" method="POST">
+            @csrf
+
+            <div class="mb-3">
+                <label class="form-label">Nama</label>
+
+                <input
+                    type="text"
+                    name="name"
+                    class="form-control @error('name') is-invalid @enderror"
+                    value="{{ old('name') }}"
+                    placeholder="Masukkan nama lengkap"
+                    required>
+
+                @error('name')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+
+                <input
+                    type="email"
+                    name="email"
+                    class="form-control @error('email') is-invalid @enderror"
+                    value="{{ old('email') }}"
+                    placeholder="nama@email.com"
+                    required>
+
+                @error('email')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+
+                <input
+                    type="password"
+                    name="password"
+                    class="form-control @error('password') is-invalid @enderror"
+                    placeholder="Masukkan password"
+                    required>
+
+                <div class="form-help">
+                    Gunakan password yang aman dan mudah dikelola.
+                </div>
+
+                @error('password')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Role</label>
+
+                <select
+                    name="role_id"
+                    class="form-select @error('role_id') is-invalid @enderror"
+                    required>
+
+                    <option value="">Pilih role</option>
+
+                    @foreach ($roles as $role)
+                        <option value="{{ $role->id }}"
+                            {{ old('role_id') == $role->id ? 'selected' : '' }}>
+                            {{ $role->name }}
+                        </option>
+                    @endforeach
+
+                </select>
+
+                @error('role_id')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-actions">
+
+                <button type="submit" class="btn-save">
+                    Simpan User
+                </button>
+
+                <a href="{{ route('admin.users.index') }}" class="btn-back">
+                    Kembali
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
 
 </div>
 

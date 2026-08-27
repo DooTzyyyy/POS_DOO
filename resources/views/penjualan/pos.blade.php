@@ -1,134 +1,134 @@
-@extends('layouts.app')
+    @extends('layouts.app')
 
 
-@section('title', 'POS')
+    @section('title', 'POS')
 
 
-@section('content')
+    @section('content')
 
 
-@if ($errors->any())
-    <div class="alert alert-danger">
-        {{ $errors->first() }}
-    </div>
-@endif
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            {{ $errors->first() }}
+        </div>
+    @endif
 
 
-<h4 class="mb-3">
-    Tambah dan Edit
-</h4>
+    <h4 class="mb-3">
+        Tambah dan Edit
+    </h4>
 
 
-<div class="row">
+    <div class="row">
 
 
-{{-- -------------------- PRODUK -------------------- --}}
+    {{-- -------------------- PRODUK -------------------- --}}
 
 
-<div class="col-md-6">
-    <div class="card">
-        <div class="card-body" style="max-height:70vh; overflow:auto">
-            <div class="mb-3">
-                <form method="GET"action="{{ route('penjualan.create') }}">
-                    <input type="text"
-                        name="search"
-                        value="{{ request('search') }}"
-                        class="form-control"
-                        placeholder="Cari produk..."
-                        onkeyup="this.form.submit()">
-                </form>
-            </div>
-
-
-@foreach ($products as $product)
-    <form  method="POST" action="{{ route('itempenjualan.store') }}" class="row mb-2">
-    @csrf
-    <input type="hidden" name="product_id" value="{{ $product->id }}">
-
-
-    <div class="col-7">
-        <button type="submit"
-            class="btn btn-outline-primary w-100 text-start p-2 {{ $sale->status === 'COMPLETED' ? 'disabled' : '' }}">
-            <div class="d-flex align-items-center gap-2">
-
-
-               
-                {{-- Nama & harga --}}
-                <div>
-                    <div class="fw-semibold">{{ $product->nama }}</div>
-                    <small class="text-muted">{{ number_format($product->harga_jual) }}</small>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body" style="max-height:70vh; overflow:auto">
+                <div class="mb-3">
+                    <form method="GET"action="{{ route('penjualan.create') }}">
+                        <input type="text"
+                            name="search"
+                            value="{{ request('search') }}"
+                            class="form-control"
+                            placeholder="Cari produk..."
+                            onkeyup="this.form.submit()">
+                    </form>
                 </div>
 
 
-            </div>
-        </button>
+    @foreach ($products as $product)
+        <form  method="POST" action="{{ route('itempenjualan.store') }}" class="row mb-2">
+        @csrf
+        <input type="hidden" name="product_id" value="{{ $product->id }}">
+
+
+        <div class="col-7">
+            <button type="submit"
+                class="btn btn-outline-primary w-100 text-start p-2 {{ $sale->status === 'COMPLETED' ? 'disabled' : '' }}">
+                <div class="d-flex align-items-center gap-2">
+
+
+
+                    {{-- Nama & harga --}}
+                    <div>
+                        <div class="fw-semibold">{{ $product->nama }}</div>
+                        <small class="text-muted">{{ number_format($product->harga_jual) }}</small>
+                    </div>
+
+
+                </div>
+            </button>
+        </div>
+
+
+        <div class="col-3">
+        <input type="number" name="quantity" value="1" min="1"
+                class="form-control"
+                    {{ $sale->status === 'COMPLETED' ? 'readonly' : '' }}>
+
+
     </div>
 
 
-    <div class="col-3">
-    <input type="number" name="quantity" value="1" min="1"
-            class="form-control"
-                {{ $sale->status === 'COMPLETED' ? 'readonly' : '' }}>
+    <div class="col-2">
+        <button type="submit"
+            class="btn btn-primary w-100 {{ $sale->status === 'COMPLETED' ? 'disabled' : '' }}">
+        +</button>
+    </div>
+    </form>
+    @endforeach
+    </div>
+    </div>
+    </div>
 
 
-</div>
-
-
-<div class="col-2">
-    <button type="submit"
-        class="btn btn-primary w-100 {{ $sale->status === 'COMPLETED' ? 'disabled' : '' }}">
-    +</button>
-</div>
-</form>
-@endforeach
-</div>
-</div>
-</div>
-
-
-{{-- ================= KERANJANG ================= --}}
-<div class="col-md-6">
-    <div class="card">
-        <table class="table table-bordered mb-0">
-            <thead>
-                <tr>
-                    <th>Produk</th>
-                    <th>Harga</th>
-                    <th>Qty</th>
-                    <th>Subtotal</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($sale->itempenjualan as $item)
-                <tr>
-                    <td>{{ $item->produk->nama }}</td>
-                    <td>Rp.{{ number_format($item->produk->harga_jual) }}</td>
-                    <td>
-                        <form method="POST" action="{{ route('itempenjualan.update', $item->id) }}">
-                            @csrf @method('PUT')
-                            <input type="number" name="quantity"
-                                   value="{{ $item->kuantitas }}"
-                                   class="form-control form-control-sm">
-                        </form>
-                    </td>
-                    <td>Rp {{ number_format($item->subtotal) }}</td>
-                    <td>
-                        @can('delete', $item)
-                        <form method="POST" action="{{ route('itempenjualan.destroy', $item->id) }}">
-                            @csrf @method('DELETE')
-                            <button class="btn btn-danger btn-sm">Hapus</button>
-                        </form>
-                        @endcan
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="4" class="text-center text-muted">
-                        Keranjang kosong
-                    </td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
-<div class="card-footer">
+    {{-- ================= KERANJANG ================= --}}
+    <div class="col-md-6">
+        <div class="card">
+            <table class="table table-bordered mb-0">
+                <thead>
+                    <tr>
+                        <th>Produk</th>
+                        <th>Harga</th>
+                        <th>Qty</th>
+                        <th>Subtotal</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($sale->itempenjualan as $item)
+                    <tr>
+                        <td>{{ $item->produk->nama }}</td>
+                        <td>Rp.{{ number_format($item->produk->harga_jual) }}</td>
+                        <td>
+                            <form method="POST" action="{{ route('itempenjualan.update', $item->id) }}">
+                                @csrf @method('PUT')
+                                <input type="number" name="quantity"
+                                    value="{{ $item->kuantitas }}"
+                                    class="form-control form-control-sm">
+                            </form>
+                        </td>
+                        <td>Rp {{ number_format($item->subtotal) }}</td>
+                        <td>
+                            @can('delete', $item)
+                            <form method="POST" action="{{ route('itempenjualan.destroy', $item->id) }}">
+                                @csrf @method('DELETE')
+                                <button class="btn btn-danger btn-sm">Hapus</button>
+                            </form>
+                            @endcan
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="4" class="text-center text-muted">
+                            Keranjang kosong
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+    <div class="card-footer">

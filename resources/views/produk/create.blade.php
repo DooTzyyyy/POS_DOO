@@ -4,61 +4,358 @@
 
 @section('content')
 
-<div class="container">
+<div class="container py-4">
 
-    <h3 class="mb-4 fw-bold">Tambah Produk</h3>
+    {{-- HEADER --}}
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
 
-    <form action="{{ route('produk.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
+        <div>
 
-        {{-- FOTO --}}
-        <div class="mb-3">
-            <label class="form-label">Gambar</label>
-            <input type="file" name="foto" class="form-control">
+            <h3 class="fw-bold mb-1 text-dark">
+                Tambah Produk
+            </h3>
+
+            <p class="text-secondary mb-0">
+                Tambahkan produk baru ke dalam sistem
+            </p>
+
         </div>
 
-        {{-- JENIS --}}
-        <div class="mb-3">
-            <label class="form-label">Jenis</label>
-            <select name="jenis_id" class="form-control">
-                <option value="">-- Pilih Jenis --</option>
-                @foreach ($jenises as $jenis)
-                    <option value="{{ $jenis->id }}" {{ old('jenis_id') == $jenis->id ? 'selected' : '' }}>
-                        {{ $jenis->nama }}
-                    </option>
+        <a
+            href="{{ route('produk.index') }}"
+            class="btn btn-outline-secondary rounded-3 px-4"
+        >
+            ← Kembali
+        </a>
+
+    </div>
+
+
+    {{-- ERROR --}}
+    @if($errors->any())
+
+        <div class="alert alert-danger border-0 shadow-sm rounded-3">
+
+            <div class="fw-semibold mb-2">
+                Terdapat beberapa kesalahan:
+            </div>
+
+            <ul class="mb-0">
+
+                @foreach($errors->all() as $error)
+
+                    <li>
+                        {{ $error }}
+                    </li>
+
                 @endforeach
-            </select>
+
+            </ul>
+
         </div>
 
-        {{-- NAMA --}}
-        <div class="mb-3">
-            <label class="form-label">Nama Produk</label>
-            <input type="text" name="nama" class="form-control">
-        </div>
+    @endif
 
-        {{-- HARGA BELI --}}
-        <div class="mb-3">
-            <label class="form-label">Harga Beli</label>
-            <input type="number" name="harga_beli" class="form-control">
-        </div>
 
-        {{-- HARGA JUAL --}}
-        <div class="mb-3">
-            <label class="form-label">Harga Jual</label>
-            <input type="number" name="harga_jual" class="form-control">
-        </div>
+    {{-- FORM CARD --}}
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
 
-        {{-- STOK --}}
-        <div class="mb-3">
-            <label class="form-label">Stok</label>
-            <input type="number" name="stok" class="form-control">
-        </div>
+        <form
+            action="{{ route('produk.store') }}"
+            method="POST"
+            enctype="multipart/form-data"
+        >
 
-        <button class="btn btn-success">Simpan</button>
-        <a href="{{ route('produk.index') }}" class="btn btn-secondary">Kembali</a>
+            @csrf
 
-    </form>
+
+            <div class="card-body p-4 p-lg-5">
+
+                <div class="row g-5">
+
+
+                    {{-- INFORMASI PRODUK --}}
+                    <div class="col-lg-7">
+
+                        <div class="mb-4">
+
+                            <h5 class="fw-bold text-dark mb-1">
+                                Informasi Produk
+                            </h5>
+
+                            <p class="text-secondary small mb-0">
+                                Masukkan informasi dasar produk yang ingin ditambahkan.
+                            </p>
+
+                        </div>
+
+
+                        {{-- NAMA --}}
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Nama Produk
+                            </label>
+
+                            <input
+                                type="text"
+                                name="nama"
+                                class="form-control form-control-lg rounded-3"
+                                value="{{ old('nama') }}"
+                                placeholder="Contoh: Kopi Arabika Premium"
+                                required
+                            >
+
+                        </div>
+
+
+                        {{-- JENIS --}}
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Jenis Produk
+                            </label>
+
+                            <select
+                                name="jenis_id"
+                                class="form-select form-select-lg rounded-3"
+                                required
+                            >
+
+                                <option value="">
+                                    -- Pilih Jenis Produk --
+                                </option>
+
+                                @foreach($jenises as $jenis)
+
+                                    <option
+                                        value="{{ $jenis->id }}"
+                                        {{ old('jenis_id') == $jenis->id ? 'selected' : '' }}
+                                    >
+                                        {{ $jenis->nama }}
+                                    </option>
+
+                                @endforeach
+
+                            </select>
+
+                        </div>
+
+
+                        {{-- HARGA --}}
+                        <div class="row g-3">
+
+                            <div class="col-md-6">
+
+                                <label class="form-label fw-semibold">
+                                    Harga Beli
+                                </label>
+
+                                <div class="input-group input-group-lg">
+
+                                    <span class="input-group-text bg-light border-end-0">
+                                        Rp
+                                    </span>
+
+                                    <input
+                                        type="number"
+                                        name="harga_beli"
+                                        class="form-control border-start-0 rounded-end-3"
+                                        value="{{ old('harga_beli') }}"
+                                        placeholder="0"
+                                        min="0"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <label class="form-label fw-semibold">
+                                    Harga Jual
+                                </label>
+
+                                <div class="input-group input-group-lg">
+
+                                    <span class="input-group-text bg-light border-end-0">
+                                        Rp
+                                    </span>
+
+                                    <input
+                                        type="number"
+                                        name="harga_jual"
+                                        class="form-control border-start-0 rounded-end-3"
+                                        value="{{ old('harga_jual') }}"
+                                        placeholder="0"
+                                        min="0"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        {{-- STOK --}}
+                        <div class="mt-4">
+
+                            <label class="form-label fw-semibold">
+                                Stok Awal
+                            </label>
+
+                            <input
+                                type="number"
+                                name="stok"
+                                class="form-control form-control-lg rounded-3"
+                                value="{{ old('stok') }}"
+                                placeholder="0"
+                                min="0"
+                                required
+                            >
+
+                            <small class="text-secondary">
+                                Masukkan jumlah stok produk saat ini.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    {{-- FOTO --}}
+                    <div class="col-lg-5">
+
+                        <div class="mb-4">
+
+                            <h5 class="fw-bold text-dark mb-1">
+                                Foto Produk
+                            </h5>
+
+                            <p class="text-secondary small mb-0">
+                                Tambahkan foto agar produk lebih mudah dikenali.
+                            </p>
+
+                        </div>
+
+
+                        <div
+                            class="border rounded-4 bg-light d-flex align-items-center justify-content-center mb-3"
+                            style="height:300px;"
+                        >
+
+                            <img
+                                id="previewImage"
+                                src=""
+                                alt="Preview"
+                                class="img-fluid rounded-3"
+                                style="max-height:280px;max-width:90%;display:none;object-fit:contain;"
+                            >
+
+
+                            <div
+                                id="previewText"
+                                class="text-center text-secondary"
+                            >
+
+                                <div
+                                    class="bg-white border rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3 shadow-sm"
+                                    style="width:65px;height:65px;"
+                                >
+                                    <span style="font-size:26px;">
+                                        📷
+                                    </span>
+                                </div>
+
+                                <div class="fw-semibold text-dark">
+                                    Belum ada foto
+                                </div>
+
+                                <small>
+                                    Pilih gambar untuk melihat preview
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <input
+                            type="file"
+                            name="foto"
+                            id="fotoInput"
+                            class="form-control rounded-3"
+                            accept="image/jpeg,image/png,image/jpg"
+                        >
+
+                        <small class="text-secondary d-block mt-2">
+                            Format JPG, JPEG, atau PNG.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {{-- FOOTER --}}
+            <div class="border-top bg-light px-4 px-lg-5 py-3">
+
+                <div class="d-flex justify-content-end gap-2">
+
+                    <a
+                        href="{{ route('produk.index') }}"
+                        class="btn btn-outline-secondary rounded-3 px-4"
+                    >
+                        Batal
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary rounded-3 px-4"
+                    >
+                        Simpan Produk
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
 
 </div>
+
+
+{{-- PREVIEW FOTO --}}
+<script>
+
+document.getElementById('fotoInput').addEventListener('change', function(e) {
+
+    const file = e.target.files[0];
+
+    if (!file) {
+        return;
+    }
+
+    const image = document.getElementById('previewImage');
+    const text = document.getElementById('previewText');
+
+    image.src = URL.createObjectURL(file);
+    image.style.display = 'block';
+
+    if (text) {
+        text.style.display = 'none';
+    }
+
+});
+
+</script>
 
 @endsection

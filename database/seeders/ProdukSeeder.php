@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Produk;
-use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class ProdukSeeder extends Seeder
@@ -13,12 +11,7 @@ class ProdukSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::first();
-
-        Produk::factory()
-            ->count(100)
-            ->create([
-                'user_id' => $user->id,
-            ]);
+        // Tidak membuat produk dummy.
+        // Produk akan ditambahkan secara manual melalui halaman Tambah Produk.
     }
 }

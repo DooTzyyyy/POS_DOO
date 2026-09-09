@@ -2,29 +2,30 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
 class ItemPenjualan extends Model
 {
     use HasFactory;
 
     protected $table = 'item_penjualan';
-    
+
     protected $fillable = [
         'penjualan_id',
         'produk_id',
         'kuantitas',
         'harga_satuan',
-        'subtotal'
+        'subtotal',
     ];
 
     public function produk()
     {
-        return $this->belongsTo(produk::class, 'produk_id');
+        return $this->belongsTo(Produk::class, 'produk_id');
     }
 
     public function penjualan()
     {
-        return $this->belongsTo(penjualan::class, 'penjualan_id');
+        return $this->belongsTo(Penjualan::class, 'penjualan_id');
     }
 }

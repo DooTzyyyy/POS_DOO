@@ -2,20 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class penjualan extends Model
+class Penjualan extends Model
 {
     use HasFactory;
 
     protected $table = 'penjualan';
-    
+
     protected $fillable = [
         'user_id',
         'total_pembayaran',
         'metode_pembayaran',
-        'status'
+        'status',
     ];
 
     public function user()

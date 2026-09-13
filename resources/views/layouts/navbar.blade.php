@@ -3,11 +3,12 @@
 
         <!-- LOGO & MENU -->
         <div class="d-flex align-items-center">
+            
 
             <!-- LOGO -->
             <a href="{{ route('dashboard') }}"
                class="navbar-brand fw-bold text-primary me-4">
-                POS
+                ALDO
             </a>
 
             <!-- MENU -->
@@ -34,7 +35,7 @@
 
                 <a href="{{ route('produk.index') }}"
                    class="nav-item-custom">
-                    Produk
+                    Produk      
                 </a>
 
                 <a href="{{ route('penjualan.index') }}"

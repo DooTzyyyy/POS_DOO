@@ -8,6 +8,7 @@ use App\Http\Controllers\JenisController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProfileController;
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'index'])->name('login');
@@ -37,6 +38,8 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('role:admin,kasir')->group(function () {
     Route::resource('penjualan', PenjualanController::class);
-});
+    Route::get('/profile', [ProfileController::class, 'index'])
+    ->name('profile');
+    });
 
 });

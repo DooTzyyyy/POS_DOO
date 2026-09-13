@@ -405,23 +405,18 @@
 
 
                                     {{-- HAPUS --}}
-                                    <form
-                                        action="{{ route('jenis.destroy', $jenis->id) }}"
-                                        method="POST">
+                                     <form action="{{ route('jenis.destroy', ['jeni' => $jenis->getKey()]) }}"
+                                            method="POST"
+                                            style="display:inline;"
+                                            onsubmit="return confirm('Yakin ingin menghapus jenis ini?')">
 
-                                        @csrf
-                                        @method('DELETE')
+                                            @csrf
+                                            @method('DELETE')
 
-                                        <button
-                                            type="submit"
-                                            class="btn-hapus"
-                                            onclick="return confirm('Yakin hapus data ini?')">
-
-                                            Hapus
-
-                                        </button>
-
-                                    </form>
+                                            <button type="submit" class="btn btn-danger">
+                                                Hapus
+                                            </button>
+                                        </form>
 
                                 </div>
 

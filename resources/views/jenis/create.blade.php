@@ -150,7 +150,7 @@
 
     <div class="form-card">
 
-        <form action="{{ route('jenis.store') }}" method="POST">
+        <form action=   "{{ route('jenis.store') }}" method="POST">
 
             @csrf
 

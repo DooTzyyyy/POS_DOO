@@ -54,17 +54,20 @@ class JenisController extends Controller
             ->with('success', 'Jenis berhasil diupdate');
     }
 
-    public function destroy(Jenis $jenis)
+    public function destroy($jeni)
     {
-        // Cegah hapus jika jenis masih dipakai oleh produk
-        if ($jenis->produk()->exists()) {
-            return redirect()->route('jenis.index')
-                ->with('error', 'Jenis tidak bisa dihapus karena masih dipakai oleh produk.');
+        $jenis = \App\Models\Jenis::find($jeni);
+
+        if (!$jenis) {
+            return redirect()
+                ->route('jenis.index')
+                ->with('error', 'Data jenis tidak ditemukan.');
         }
 
         $jenis->delete();
 
-        return redirect()->route('jenis.index')
-            ->with('success', 'Jenis berhasil dihapus');
+        return redirect()
+            ->route('jenis.index')
+            ->with('success', 'Jenis berhasil dihapus.');
     }
 }

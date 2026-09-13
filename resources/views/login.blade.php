@@ -120,7 +120,7 @@
 
             {{-- LOGO --}}
             <div class="login-logo">
-                <h1>POS</h1>
+                <h1>Aldo Store</h1>
             </div>
 
             <div class="login-subtitle">

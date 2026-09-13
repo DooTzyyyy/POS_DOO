@@ -1,3 +1,4 @@
+```blade
 @extends('layouts.app')
 
 @section('title', 'Edit Jenis')
@@ -80,6 +81,7 @@
         color: #fff;
         font-size: 13px;
         font-weight: 600;
+        cursor: pointer;
     }
 
     .btn-simpan:hover {
@@ -87,6 +89,7 @@
     }
 
     .btn-kembali {
+        display: inline-block;
         padding: 9px 17px;
         border: 1px solid #dfe3e8;
         border-radius: 7px;
@@ -112,11 +115,9 @@
     }
 </style>
 
-
 <div class="container form-page">
 
     <div class="form-header">
-
         <h1 class="form-title">
             Edit Jenis
         </h1>
@@ -124,48 +125,37 @@
         <p class="form-subtitle">
             Perbarui informasi jenis produk.
         </p>
-
     </div>
-
 
     {{-- ERROR --}}
     @if ($errors->any())
-
         <div class="alert error-box">
-
             <strong>Periksa kembali data yang dimasukkan.</strong>
 
             <ul class="mb-0 mt-2">
-
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
-
             </ul>
-
         </div>
-
     @endif
-
 
     <div class="form-card">
 
-        <form
-            action="{{ route('jenis.update', $jenis->id) }}"
-            method="POST">
+        ```blade
+        <form action="{{ route('jenis.update', ['jeni' => request()->route('jeni')]) }}" method="POST">
 
             @csrf
             @method('PUT')
 
-
             <div>
-
-                <label class="field-label">
+                <label for="nama" class="field-label">
                     Nama Jenis
                 </label>
 
                 <input
                     type="text"
+                    id="nama"
                     name="nama"
                     class="form-control field-input"
                     value="{{ old('nama', $jenis->nama) }}"
@@ -175,31 +165,27 @@
                 <div class="field-help">
                     Pastikan nama jenis mudah dikenali oleh pengguna.
                 </div>
-
             </div>
-
 
             <div class="form-footer">
 
                 <button
                     type="submit"
                     class="btn-simpan">
-
                     Simpan Perubahan
-
                 </button>
 
                 <a
                     href="{{ route('jenis.index') }}"
                     class="btn-kembali">
-
                     Kembali
-
                 </a>
 
             </div>
 
         </form>
+        ```
+
 
     </div>
 

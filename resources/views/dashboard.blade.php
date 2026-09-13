@@ -356,7 +356,7 @@
                     </h1>
 
                     <p>
-                        Ringkasan aktivitas POS hari ini
+                        Ringkasan aktivitas Aldo Store hari ini
                     </p>
 
                 </div>
